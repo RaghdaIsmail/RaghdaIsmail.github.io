@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raghda Ismail | Data Analyst</title>
+  <meta name="description" content="Raghda Ismail – Data Analyst and BI Dashboard Developer (Power BI, Tableau, SQL).">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📊%3C/text%3E%3C/svg%3E">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sky2: "#38bdf8",   /* أزرق سماوي */
+            mint: "#34d399",   /* أخضر */
+            rose: "#f472b6",   /* بينك */
+            space: "#050816",
+            deep: "#0b1233"
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body{ background: radial-gradient(ellipse at top, #16235a 0%, #0b1233 42%, #050816 100%) fixed; }
+    #sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+
+    /* النجوم */
+    .star{position:absolute;border-radius:50%;animation:twinkle var(--d) ease-in-out infinite}
+    @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.8)}50%{opacity:1;transform:scale(1.3)}}
+
+    /* الفقاعات */
+    .bubble{
+      position:absolute;bottom:-90px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;color:#fff;border:1px solid var(--c);
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.28), transparent 65%);
+      box-shadow:0 0 12px var(--c);animation:rise var(--t) linear infinite;
+    }
+    @keyframes rise{
+      0%{transform:translate(0,0);opacity:0}
+      10%{opacity:.9}
+      50%{transform:translate(var(--x),-55vh)}
+      100%{transform:translate(0,-115vh);opacity:0}
+    }
+
+    /* عناوين بتدرج (مع حماية الحروف من القص) */
+    .grad-text{
+      display:inline-block;padding-bottom:.14em;line-height:1.3;
+      background:linear-gradient(90deg,#38bdf8,#818cf8,#f472b6);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+
+    /* كروت زجاجية */
+    .glass{
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+      backdrop-filter:blur(8px);border-radius:16px;
+      transition:transform .35s, border-color .35s, box-shadow .35s, background .35s;
+    }
+    .glass:hover{
+      transform:translateY(-6px);border-color:rgba(56,189,248,.7);
+      background:rgba(255,255,255,.1);
+      box-shadow:0 12px 32px rgba(56,189,248,.22);
+    }
+
+    /* الصورة: حلقة زرقاء فقط */
+    .float{animation:floaty 5s ease-in-out infinite}
+    @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    .ring{position:relative}
+    .ring::before,.ring::after{
+      content:"";position:absolute;inset:-8px;border-radius:50%;
+      background:conic-gradient(#38bdf8,#818cf8,#e0f2fe,#38bdf8);
+      animation:spin 7s linear infinite;
+    }
+    .ring::before{filter:blur(1px)}
+    .ring::after{filter:blur(26px);opacity:.5}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ظهور وقت النزول */
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease, transform .8s ease;transition-delay:var(--d,0s)}
+    .reveal.show{opacity:1;transform:none}
+
+    /* دخول الهيرو */
+    .pop{opacity:0;transform:translateY(28px);animation:pop .9s ease forwards;animation-delay:var(--d,0s)}
+    @keyframes pop{to{opacity:1;transform:none}}
+
+    .cursor{display:inline-block;width:3px;height:1.1em;background:#38bdf8;margin-left:4px;vertical-align:middle;animation:blink 1s steps(1) infinite}
+    @keyframes blink{50%{opacity:0}}
+
+    .nav-link{position:relative;transition:color .3s}
+    .nav-link::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:linear-gradient(90deg,#38bdf8,#818cf8);transition:width .3s}
+    .nav-link:hover::after,.nav-link.active::after{width:100%}
+    .nav-link.active{color:#38bdf8}
+
+    .bounce{animation:bounce 1.6s ease-in-out infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+
+    .pulse{animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(52,211,153,.5)}50%{box-shadow:0 0 0 8px rgba(52,211,153,0)}}
+
+    /* خط الخبرات */
+    .tl{position:relative;border-left:2px solid rgba(56,189,248,.35);margin-left:8px}
+    .tl-item{position:relative;padding-left:26px;margin-bottom:22px}
+    .tl-item::before{content:"";position:absolute;left:-9px;top:22px;width:16px;height:16px;border-radius:50%;background:#38bdf8;border:3px solid #0b1233;box-shadow:0 0 12px #38bdf8}
+    .tl-item.now::before{background:#34d399;box-shadow:0 0 12px #34d399}
+
+    /* فلتر المشاريع */
+    .tab{padding:8px 18px;border-radius:99px;border:1px solid rgba(255,255,255,.2);color:#cbd5e1;font-size:14px;transition:all .25s;cursor:pointer}
+    .tab:hover{border-color:#38bdf8;color:#38bdf8}
+    .tab.on{background:#38bdf8;border-color:#38bdf8;color:#050816;font-weight:600}
+
+    /* صورة المشروع */
+    .shot{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;
+      background:linear-gradient(135deg,rgba(56,189,248,.18),rgba(129,140,248,.18));
+      display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px;cursor:zoom-in}
+    .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s}
+    .glass:hover .shot img{transform:scale(1.05)}
+
+    #lb{position:fixed;inset:0;background:rgba(3,6,20,.92);z-index:100;display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+    #lb.open{display:flex}
+    #lb img{max-width:100%;max-height:92vh;border-radius:12px}
+  </style>
+</head>
+
+<body class="text-white antialiased">
+
+  <div id="sky"></div>
+
+  <!-- عرض الصورة بحجم كبير -->
+  <div id="lb"><img id="lbimg" alt=""></div>
+
+  <div class="relative z-10">
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="fixed top-0 inset-x-0 z-50 bg-space/75 backdrop-blur border-b border-white/10">
+      <nav class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+        <a href="#home" class="font-bold text-xl text-sky2 transition hover:scale-110">Raghda<span class="text-rose">.</span></a>
+        <ul class="hidden lg:flex gap-7 text-sm font-medium text-slate-200">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#experience" class="nav-link">Experience</a></li>
+          <li><a href="#certificates" class="nav-link">Certificates</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+        <a href="#contact" class="hidden lg:inline-block px-5 py-2 rounded-full bg-sky2 text-space text-sm font-semibold transition duration-300 hover:bg-white">Let's talk</a>
+        <button id="menuBtn" class="lg:hidden text-2xl px-2" aria-label="Menu">☰</button>
+      </nav>
+      <div id="mobileMenu" class="hidden lg:hidden border-t border-white/10 bg-space/95">
+        <ul class="px-5 py-3 flex flex-col gap-3 text-slate-200">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#certificates">Certificates</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section id="home" class="pt-36 pb-24">
+      <div class="max-w-6xl mx-auto px-5 grid md:grid-cols-2 gap-12 items-center">
+
+        <div>
+          <p class="pop text-sm uppercase tracking-widest text-sky2" style="--d:.15s">Hello, I'm</p>
+          <h1 class="pop text-5xl md:text-6xl font-extrabold text-white mt-2" style="--d:.3s;line-height:1.2;text-shadow:0 0 30px rgba(56,189,248,.35)">
+            Raghda Ismail
+          </h1>
+          <p class="pop text-xl md:text-2xl mt-3 text-slate-200 min-h-[2rem]" style="--d:.5s">
+            <span id="typed"></span><span class="cursor"></span>
+          </p>
+          <p class="pop mt-5 max-w-lg text-slate-300 leading-relaxed" style="--d:.7s">
+            Data analyst turning raw data into clear insights, with interactive dashboards in
+            Power BI and Tableau, backed by SQL, Power Query and Python.
+          </p>
+
+          <div class="pop mt-8 flex flex-wrap gap-3" style="--d:.9s">
+            <a href="#projects" class="px-6 py-3 rounded-full bg-sky2 text-space font-semibold transition duration-300 hover:bg-white hover:-translate-y-1 hover:shadow-[0_0_28px_#38bdf8]">View my work</a>
+            <a href="#contact" class="px-6 py-3 rounded-full border border-sky2 text-sky2 font-semibold transition duration-300 hover:bg-sky2 hover:text-space hover:-translate-y-1">Contact me</a>
+          </div>
+        </div>
+
+        <!-- صورتي -->
+        <div class="pop flex justify-center" style="--d:.6s">
+          <div class="float">
+            <div class="ring w-64 h-64 md:w-80 md:h-80 rounded-full">
+              <div class="relative z-10 w-full h-full rounded-full overflow-hidden border-4 border-deep bg-[#16235a]">
+                <img data-p="images/uu.png" alt="Raghda Ismail" class="w-full h-full object-cover object-top">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-14">
+        <a href="#about" class="inline-block text-sky2 text-sm bounce">Scroll ↓</a>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold">About <span class="grad-text">me</span></h2>
+          <div class="h-1 w-20 rounded-full bg-gradient-to-r from-sky2 to-rose mt-2"></div>
+        </div>
+
+        <div class="mt-8 grid md:grid-cols-3 gap-8">
+          <p class="reveal md:col-span-2 text-slate-300 text-lg leading-relaxed" style="--d:.1s">
+            I'm a data analyst with a Geomatics background, focused on turning raw data into clear,
+            actionable insights. I clean, transform and model data using Power Query, SQL and
+            PostgreSQL, design relational data models (ERD), and build interactive dashboards in
+            Power BI and Tableau that track KPIs and support data-driven decision-making. I'm
+            currently deepening my skills in the DEPI Professional Data Analyst program and the
+            University of Tokyo GCI World Program (Python, NumPy, Pandas and time series analysis).
+            My GIS and surveying experience gives me a strong eye for spatial data and accuracy.
+          </p>
+          <div class="reveal glass p-6 text-sm space-y-3" style="--d:.2s">
+            <div><span class="text-sky2 font-semibold">Location</span><br><span class="text-slate-300">Cairo, Egypt</span></div>
+            <div><span class="text-sky2 font-semibold">Email</span><br><a class="text-slate-300 hover:text-sky2 break-all" href="mailto:raghda.ismaaail2662003@gmail.com">raghda.ismaaail2662003@gmail.com</a></div>
+            <div><span class="text-sky2 font-semibold">Languages</span><br><span class="text-slate-300">English</span></div>
+          </div>
+        </div>
+
+        <div class="mt-10 grid md:grid-cols-3 gap-5">
+          <div class="reveal glass p-6" style="--d:.1s">
+            <div class="text-sky2 text-xs font-semibold uppercase tracking-wider">Education</div>
+            <h3 class="mt-2 text-lg font-bold">B.Sc. in Geomatics</h3>
+            <p class="text-slate-300 text-sm mt-1">Ain Shams University, Egypt · 2021 – 2025 · Graduation project: B+</p>
+          </div>
+          <div class="reveal glass p-6" style="--d:.2s">
+            <div class="text-mint text-xs font-semibold uppercase tracking-wider">Currently</div>
+            <h3 class="mt-2 text-lg font-bold">DEPI – Professional Data Analyst</h3>
+            <p class="text-slate-300 text-sm mt-1">MCIT · ETL, SQL, PostgreSQL, ERD design, Power BI and Tableau.</p>
+          </div>
+          <div class="reveal glass p-6" style="--d:.3s">
+            <div class="text-rose text-xs font-semibold uppercase tracking-wider">Also learning</div>
+            <h3 class="mt-2 text-lg font-bold">GCI World Program</h3>
+            <p class="text-slate-300 text-sm mt-1">University of Tokyo · Data Science, Python and Time Series.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold">Featured <span class="grad-text">dashboards</span></h2>
+          <div class="h-1 w-20 rounded-full bg-gradient-to-r from-sky2 to-rose mt-2"></div>
+        </div>
+
+        <div class="reveal mt-8 flex flex-wrap gap-2" id="tabs" style="--d:.1s">
+          <button class="tab on" data-f="all">All</button>
+          <button class="tab" data-f="Power BI">Power BI</button>
+          <button class="tab" data-f="Tableau">Tableau</button>
+        </div>
+
+        <div id="projects-grid" class="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold">My <span class="grad-text">skills</span></h2>
+          <div class="h-1 w-20 rounded-full bg-gradient-to-r from-sky2 to-rose mt-2"></div>
+        </div>
+        <div id="skills-grid" class="mt-10 grid md:grid-cols-2 gap-5"></div>
+      </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience" class="py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold">Experience &amp; <span class="grad-text">training</span></h2>
+          <div class="h-1 w-20 rounded-full bg-gradient-to-r from-sky2 to-rose mt-2"></div>
+        </div>
+        <div id="exp" class="tl mt-10"></div>
+      </div>
+    </section>
+
+    <!-- ===== CERTIFICATES ===== -->
+    <section id="certificates" class="py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold">My <span class="grad-text">certificates</span></h2>
+          <div class="h-1 w-20 rounded-full bg-gradient-to-r from-sky2 to-rose mt-2"></div>
+        </div>
+
+        <!-- Looker: عنوان بس + In progress -->
+        <div class="reveal glass mt-10 p-6" style="--d:.1s">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sky2 text-xs uppercase tracking-wider font-semibold">Oct 2026</span>
+            <h3 class="text-xl font-bold">BI &amp; Data Analysis with Looker · Google Cloud Skills</h3>
+            <span class="pulse px-3 py-1 rounded-full text-xs font-semibold bg-mint/20 text-mint border border-mint/60">In progress</span>
+          </div>
+        </div>
+
+        <div id="certs" class="mt-5 grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="py-20">
+      <div class="max-w-6xl mx-auto px-5">
+        <div class="reveal">
+          <h2 class="text-3xl md:text-4xl font-extrabold">Get in <span class="grad-text">touch</span></h2>
+          <div class="h-1 w-20 rounded-full bg-gradient-to-r from-sky2 to-rose mt-2"></div>
+          <p class="mt-6 max-w-2xl text-slate-300">
+            I'm open to data analytics and BI roles. If you'd like to talk about an opportunity or see more of my work, feel free to reach out.
+          </p>
+        </div>
+
+        <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <a href="mailto:raghda.ismaaail2662003@gmail.com" class="reveal glass p-6 block" style="--d:.1s">
+            <div class="text-sky2 text-xs font-semibold uppercase tracking-wider">Email</div>
+            <div class="mt-2 text-sm break-all">raghda.ismaaail2662003@gmail.com</div>
+          </a>
+          <a href="https://www.linkedin.com/in/Raghda-Ismail" target="_blank" rel="noopener" class="reveal glass p-6 block" style="--d:.2s">
+            <div class="text-sky2 text-xs font-semibold uppercase tracking-wider">LinkedIn</div>
+            <div class="mt-2 text-sm">linkedin.com/in/Raghda-Ismail</div>
+          </a>
+          <a href="https://wa.me/201092762658" target="_blank" rel="noopener" class="reveal glass p-6 block" style="--d:.3s">
+            <div class="text-sky2 text-xs font-semibold uppercase tracking-wider">WhatsApp</div>
+            <div class="mt-2 text-sm">+20 109 276 2658</div>
+          </a>
+          <div class="reveal glass p-6" style="--d:.4s">
+            <div class="text-sky2 text-xs font-semibold uppercase tracking-wider">Location</div>
+            <div class="mt-2 text-sm">Cairo, Egypt</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="py-10 text-center text-sm text-slate-400 border-t border-white/10">
+      © 2026 Raghda Mohamed Hassan Ismail · Data Analyst
+    </footer>
+
+  </div>
+
+  <script>
+    /* =====================================================
+       عدّلي بياناتك من هنا فقط
+       ===================================================== */
+
+    /* المشاريع:
+       img  = الصورة الأساسية (الكود بيدوّر عليها لوحده، في images أو برّه، بحروف كبيرة أو صغيرة)
+       img2 = صورة تانية اختيارية (مثلًا Phone view). سيبيها "" لو مفيش
+       link = لينك Tableau Public أو غيره (سيبيه "" لو مفيش) */
+    const projects = [
+      { img:"images/coffee.png", img2:"images/coffee-phone.png", title:"Coffee Shop Sales Dashboard", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["115.4K","Total sales"],["4K","Transactions"],["381","Customers"]],
+        text:"Sales by coffee type, month, time of day and payment type, with filters and a phone layout.", link:"" },
+      { img:"images/superstore.png", img2:"", title:"Superstore Sales & Profit", tool:"Tableau", tools:"Tableau",
+        kpis:[["$2.3M","Sales"],["$286.4K","Profit"],["6,144","Orders"]],
+        text:"Overview and customer-insights dashboards: sales by state, category trend, discount vs profit, top customers.", link:"" },
+      { img:"images/tickets.png", img2:"", title:"Revenue, Tickets & Customers", tool:"Tableau", tools:"Tableau",
+        kpis:[["8.3M","Revenue"],["200K","Tickets"],["41.52","Avg price"]],
+        text:"Rail ticket analysis by route, ticket class, payment method and journey status, with a phone layout.", link:"" },
+      { img:"images/sales-profit.png", img2:"", title:"Comprehensive Sales & Profit", tool:"Tableau", tools:"Tableau",
+        kpis:[["119.9M","Sales"],["33.2M","Profit"],["2.48M","Units"]],
+        text:"Profit by sales method, top 10 products, sales by state and city, profit vs cost and daily trend.", link:"" },
+      { img:"images/sales-costs.png", img2:"", title:"Sales & Costs Financial Dashboard", tool:"Tableau", tools:"Tableau",
+        kpis:[["58.69M","Sales"],["32.67M","Profit"],["26.02M","Costs"]],
+        text:"Dairy and meat sectors in EGP: sales and costs trend, sales by region map, costs by category and top products.", link:"" },
+      { img:"images/profitability.png", img2:"", title:"Sales & Profitability Performance", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["58.69M","Sales"],["32.67M","Profit"],["56%","Profit %"]],
+        text:"Month and year filters, average price by customer type, sales by region and sector, monthly trend, top products and sales vs target.", link:"" },
+      { img:"images/profit-kpis.png", img2:"", title:"KPIs by Profit & Products", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["1.76M","Revenue"],["1.05M","Profit"],["833K","Quantity"]],
+        text:"Brand profitability, profit by quarter and country, quantity by gender and region, plus a detailed table.", link:"" },
+      { img:"images/cars.png", img2:"", title:"Sales Cars", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["7.61bn","Amount"],["550.3K","Cars"],["67","Makes"]],
+        text:"Sales by make, color, state, year and transmission, with a month filter and make-level table.", link:"" },
+      { img:"images/orders.png", img2:"", title:"Sales Orders KPIs", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["62M","Total sales"],["544.51","Avg order"],["2.73","Avg rating"]],
+        text:"Sales by sub-category, product category, customer gender, order status and year.", link:"" }
+    ];
+
+    /* المهارات */
+    const skills = [
+      { t:"Data & BI", c:"sky2", items:["Power BI","Tableau","Power Query","ETL & Data Transformation","Data Analytics & Interactive Visualization","Looker (learning)"] },
+      { t:"Databases", c:"mint", items:["SQL","PostgreSQL","ERD Modeling","Database Management"] },
+      { t:"Programming", c:"rose", items:["Python (fundamentals)","NumPy","Pandas","VS Code","Coding Workflows"] },
+      { t:"Microsoft Office", c:"sky2", items:["Excel","PowerPoint","Word","Microsoft Copilot"] },
+      { t:"GIS, CAD & Surveying", c:"mint", items:["ArcGIS","ERDAS Imagine","AutoCAD","Civil 3D","Surfer","Spatial Data Analysis & GIS","Geospatial Data Management","Land Surveying & Field Measurements","Remote Sensing & Image Interpretation","CAD & Architectural Drawing"] },
+      { t:"Soft skills", c:"rose", items:["Analytical thinking","Data-driven problem solving","Self-motivated","Curiosity and willingness to learn","Attention to detail","Time management","Clear communication"] }
+    ];
+
+    /* الخبرات: org = الجهة (فوق) | role = الوظيفة (تحتها) | now:true = شغّالة حاليًا */
+    const exp = [
+      { now:true, when:"Sept 2026 – Present",
+        org:"The University of Tokyo · GCI World Program (Matsuo-Iwasawa Lab)", role:"Data Science & AI Trainee",
+        pts:["Hands-on training in Data Science, Machine Learning, Feature Engineering and Time Series Analysis.","Applying SQL, Python (NumPy & Pandas) and data visualization to real-world marketing analytics projects."] },
+      { now:true, when:"July 2026 – Present",
+        org:"Digital Egypt Pioneers Initiative (DEPI) · MCIT", role:"Professional Data Analyst",
+        pts:["Intensive program focused on end-to-end data pipelines and business intelligence.","Data cleaning, ETL and automated transformations with Power Query, SQL and PostgreSQL.","Designing ERD schemas, relational data models and interactive dashboards in Power BI and Tableau.","Applying core programming principles to streamline data processing workflows."] },
+      { now:true, when:"January 2026 – Present",
+        org:"CCG (Civil CAD Group) · Engineering Office", role:"Surveying",
+        pts:["Site data analysis to support engineering layouts, supervised by Dr. Yasser Mogahed (Faculty of Engineering, Ain Shams University)."] },
+      { when:"July 2025",
+        org:"DEPI · MCIT", role:"Data Analytics Trainee",
+        pts:["Data cleaning, data relationships and building interactive dashboards across multiple tools and platforms."] },
+      { when:"September 2024",
+        org:"EGYCO · Egyptian Construction Company", role:"Surveying Trainee",
+        pts:["Applied land surveying techniques and practiced real-world topographic measurements on project sites."] },
+      { when:"August 2024",
+        org:"EMA · Egyptian Meteorological Authority", role:"Trainee",
+        pts:["Studied temperature measurements, meteorology and basic navigation systems.","Applied concepts in atmospheric data collection and environmental analysis."] },
+      { when:"July 2024",
+        org:"Petrojet · Petroleum Projects and Technical Consultations Company", role:"Engineering Trainee",
+        pts:["Designed a complete architectural plan using engineering programs."] },
+      { when:"August 2022",
+        org:"Egyptian General Survey Authority", role:"Surveying Trainee",
+        pts:["Trained on modern survey instruments including total station and theodolite.","Practiced ground measurement techniques and cadastral survey basics."] },
+      { when:"July 2022",
+        org:"NARSS · National Authority for Remote Sensing and Space Sciences", role:"Remote Sensing Trainee",
+        pts:["Worked with satellite imagery, remote sensing techniques and GPS systems.","Gained experience with specialized remote sensing software."] }
+    ];
+
+    /* الشهادات: x = وصف قصير */
+    const certs = [
+      { d:"Aug 2026", t:"Data Fundamentals", o:"IBM SkillsBuild", c:"sky2",
+        x:"Foundations of data and data analytics concepts." },
+      { d:"Aug 2026", t:"Oracle AI Training", o:"Oracle MyLearn", c:"mint",
+        x:"Introductory training on artificial intelligence." },
+      { d:"Apr 2026", t:"Copilot Advanced", o:"MCIT & Microsoft", c:"rose",
+        x:"Advanced training on working with Microsoft Copilot." },
+      { d:"Dec 2025", t:"Data Analytics – Power BI Specialist", o:"DEPI & MCIT", c:"sky2",
+        x:"Building interactive dashboards and data visualizations with Power BI." },
+      { d:"Oct 2024", t:"Practical Surveying Training", o:"EGYCO – Egyptian Construction Company", c:"mint",
+        x:"Land surveying techniques and real-world topographic measurements on project sites." },
+      { d:"Aug 2024", t:"Meteorological Data Training", o:"Egyptian Meteorological Authority", c:"rose",
+        x:"Temperature measurements, meteorology and atmospheric data collection." },
+      { d:"Jul 2024", t:"Technical & Engineering Training", o:"Petrojet", c:"sky2",
+        x:"Designing a complete architectural plan using engineering programs." },
+      { d:"Sep 2022", t:"Surveying Field Operations", o:"Egyptian General Survey Authority", c:"mint",
+        x:"Modern survey instruments (total station, theodolite) and cadastral survey basics." },
+      { d:"Jul 2022", t:"Remote Sensing & GIS", o:"NARSS", c:"rose",
+        x:"Satellite imagery, remote sensing techniques and GPS systems." }
+    ];
+
+    /* =====================================================
+       من هنا للأسفل مفيش داعي تعدلي
+       ===================================================== */
+    const $ = s => document.querySelector(s);
+
+    /* يدوّر على الصورة في أكتر من مكان وبأكتر من شكل للحروف */
+    function candidates(path) {
+      const name = path.split("/").pop();
+      const base = name.replace(/\.[^.]+$/, "");
+      return [path, "images/" + base + ".PNG", base + ".png", base + ".PNG", "images/" + base + ".jpg", base + ".jpg"];
+    }
+    function resolveImg(path) {
+      return new Promise(res => {
+        const c = candidates(path); let i = 0;
+        const t = new Image();
+        t.onload = () => res(c[i]);
+        t.onerror = () => { i++; i < c.length ? (t.src = c[i]) : res(null); };
+        t.src = c[0];
+      });
+    }
+    function fixImgs() {
+      document.querySelectorAll("img[data-p]").forEach(async el => {
+        if (el.dataset.done) return;
+        el.dataset.done = "1";
+        const s = await resolveImg(el.dataset.p);
+        if (s) el.src = s; else el.remove();
+      });
+    }
+
+    /* المشاريع */
+    function renderProjects(f) {
+      $("#projects-grid").innerHTML = projects
+        .filter(p => f === "all" || p.tool === f)
+        .map((p, i) => `
+        <div class="reveal glass p-4 flex flex-col" style="--d:${(i % 3) * 0.12}s">
+          <div class="shot" onclick="openLb('${p.img}')">
+            <span>Dashboard preview</span>
+            <img data-p="${p.img}" alt="${p.title}">
+          </div>
+          <div class="mt-4 text-xs font-semibold text-sky2 uppercase tracking-wider">${p.tools}</div>
+          <h3 class="mt-1 text-lg font-bold">${p.title}</h3>
+          <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+            ${p.kpis.map(k => `<div class="rounded-lg bg-white/5 py-2"><div class="font-bold text-white">${k[0]}</div><div class="text-[11px] text-slate-400">${k[1]}</div></div>`).join("")}
+          </div>
+          <p class="mt-3 text-sm text-slate-300 flex-1">${p.text}</p>
+          <div class="mt-4 flex flex-wrap gap-4 text-sm font-semibold">
+            ${p.img2 ? `<button onclick="openLb('${p.img2}')" class="text-sky2 hover:text-white">Phone view</button>` : ""}
+            ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener" class="text-sky2 hover:text-white">View live →</a>` : ""}
+          </div>
+        </div>`).join("");
+      fixImgs();
+      observe();
+    }
+    document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(x => x.classList.remove("on"));
+      b.classList.add("on");
+      renderProjects(b.dataset.f);
+    }));
+
+    /* عرض الصورة بحجم كبير */
+    async function openLb(path) {
+      const s = await resolveImg(path);
+      if (!s) return;
+      $("#lbimg").src = s;
+      $("#lb").classList.add("open");
+    }
+    $("#lb").addEventListener("click", () => $("#lb").classList.remove("open"));
+
+    /* المهارات */
+    $("#skills-grid").innerHTML = skills.map((g, i) => `
+      <div class="reveal glass p-6" style="--d:${(i % 2) * 0.15}s">
+        <h3 class="font-bold text-${g.c}">${g.t}</h3>
+        <div class="mt-4 flex flex-wrap gap-2">
+          ${g.items.map(s => `<span class="px-3 py-1 rounded-full text-sm border border-${g.c}/60 text-${g.c} transition duration-300 hover:bg-${g.c} hover:text-space hover:scale-105 cursor-default">${s}</span>`).join("")}
+        </div>
+      </div>`).join("");
+
+    /* الخبرات: الجهة فوق والوظيفة تحتها */
+    $("#exp").innerHTML = exp.map(e => `
+      <div class="tl-item ${e.now ? "now" : ""} reveal">
+        <div class="glass p-5">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider ${e.now ? "text-mint" : "text-sky2"}">${e.when}</span>
+            ${e.now ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-mint/20 text-mint border border-mint/50">Current</span>' : ""}
+          </div>
+          <h3 class="mt-1 text-lg font-bold">${e.org}</h3>
+          <div class="text-sm font-semibold text-sky2">${e.role}</div>
+          <ul class="mt-3 space-y-1 text-sm text-slate-300 list-disc pl-5">
+            ${e.pts.map(p => `<li>${p}</li>`).join("")}
+          </ul>
+        </div>
+      </div>`).join("");
+
+    /* الشهادات */
+    $("#certs").innerHTML = certs.map((c, i) => `
+      <div class="reveal glass p-5" style="--d:${(i % 3) * 0.12}s">
+        <div class="text-${c.c} text-xs uppercase tracking-wider font-semibold">${c.d}</div>
+        <h4 class="mt-1 font-bold">${c.t}</h4>
+        <p class="text-slate-300 text-sm">${c.o}</p>
+        <p class="mt-2 text-xs text-slate-400">${c.x}</p>
+      </div>`).join("");
+
+    /* قايمة الموبايل */
+    $("#menuBtn").addEventListener("click", () => $("#mobileMenu").classList.toggle("hidden"));
+    document.querySelectorAll("#mobileMenu a").forEach(a => a.addEventListener("click", () => $("#mobileMenu").classList.add("hidden")));
+
+    /* النجوم والفقاعات */
+    const sky = $("#sky");
+    const colors = ["#38bdf8", "#818cf8", "#f472b6", "#34d399"];
+    for (let i = 0; i < 110; i++) {
+      const s = document.createElement("div");
+      s.className = "star";
+      const size = Math.random() * 2.4 + 0.8;
+      const col = Math.random() < 0.85 ? "#fff" : colors[Math.floor(Math.random() * colors.length)];
+      s.style.cssText = `width:${size}px;height:${size}px;background:${col};left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${2 + Math.random()*4}s;animation-delay:${Math.random()*4}s`;
+      sky.appendChild(s);
+    }
+    const labels = ["SQL", "KPI", "+18%", "Σ", "BI", "ETL", "DAX"];
+    for (let i = 0; i < 12; i++) {
+      const b = document.createElement("div");
+      b.className = "bubble";
+      const hasText = i % 3 === 0;
+      const size = hasText ? Math.random() * 18 + 46 : Math.random() * 26 + 14;
+      const left = i % 2 === 0 ? Math.random() * 7 + 1 : Math.random() * 7 + 91;
+      const col = colors[Math.floor(Math.random() * 3)];
+      if (hasText) { b.textContent = labels[Math.floor(Math.random() * labels.length)]; b.style.fontSize = "12px"; }
+      b.style.cssText += `width:${size}px;height:${size}px;left:${left}%;--c:${col};--t:${12 + Math.random()*12}s;--x:${(Math.random()-0.5)*50}px;animation-delay:${Math.random()*10}s`;
+      sky.appendChild(b);
+    }
+
+    /* كتابة الوظيفة */
+    const roles = ["Data Analyst", "BI & Dashboard Developer", "Power BI · Tableau · SQL"];
+    const typed = $("#typed");
+    let r = 0, c = 0, del = false;
+    (function type() {
+      const w = roles[r];
+      typed.textContent = w.slice(0, c);
+      if (!del && c < w.length) { c++; setTimeout(type, 90); }
+      else if (!del) { del = true; setTimeout(type, 1400); }
+      else if (c > 0) { c--; setTimeout(type, 45); }
+      else { del = false; r = (r + 1) % roles.length; setTimeout(type, 300); }
+    })();
+
+    /* ظهور العناصر وقت النزول */
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("show"); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    function observe() { document.querySelectorAll(".reveal:not(.show)").forEach(el => io.observe(el)); }
+
+    renderProjects("all");
+    fixImgs();
+
+    /* تلوين الرابط الحالي */
+    const links = document.querySelectorAll(".nav-link");
+    const secs = [...links].map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
+    window.addEventListener("scroll", () => {
+      let cur = secs[0] ? secs[0].id : "";
+      secs.forEach(s => { if (window.scrollY >= s.offsetTop - 140) cur = s.id; });
+      links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + cur));
+    });
+  </script>
+</body>
+</html>
