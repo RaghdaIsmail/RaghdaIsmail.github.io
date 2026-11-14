@@ -383,7 +383,19 @@
         text:"Sales by make, color, state, year and transmission, with a month filter and make-level table.", link:"" },
       { img:"images/orders.png", img2:"", title:"Sales Orders KPIs", tool:"Power BI", tools:"Power BI · Power Query",
         kpis:[["62M","Total sales"],["544.51","Avg order"],["2.73","Avg rating"]],
-        text:"Sales by sub-category, product category, customer gender, order status and year.", link:"" }
+      text:"Sales by sub-category, product category, customer gender, order status and year.", link:"" },
+      { img:"images/orders-territory.png", img2:"", title:"Orders by Territory & Category", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["1K","Orders"],["30.31M","Total amount"],["34.15M","Total due"]],
+        text:"Orders by year and quarter, product category and sales territory, with tax, freight and total due KPIs.", link:"" },
+      { img:"images/hr.png", img2:"", title:"HR Employees Dashboard", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["311","Employees"],["66.6%","Active"],["21M","Total salary"]],
+        text:"Headcount by department, performance, recruitment source, marital status, state and satisfaction level, with department and year filters.", link:"" },
+      { img:"images/superstore-pbi.png", img2:"images/superstore-pbi-detail.png", title:"Superstore Sales & Profit (Power BI)", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["1.93M","Sales"],["247.96K","Profit"],["789","Customers"]],
+        text:"Sales and profit toggle by year, category, state and top customers, with a detailed product table page.", label:"More views", link:"" },
+      { img:"images/bmw.png", img2:"images/bmw-models.png", title:"BMW Sales Dashboard", tool:"Power BI", tools:"Power BI · Power Query",
+        kpis:[["376M","Revenue"],["15K","Units"],["$25.1K","Avg price"]],
+        text:"Revenue vs previous year, top-selling models, revenue by country and sales channel, with a model-level drill-down page.", label:"More views", link:"" }
     ];
 
     /* المهارات */
@@ -495,7 +507,7 @@
           </div>
           <p class="mt-3 text-sm text-slate-300 flex-1">${p.text}</p>
           <div class="mt-4 flex flex-wrap gap-4 text-sm font-semibold">
-            ${p.img2 ? `<button onclick="openLb('${p.img2}')" class="text-sky2 hover:text-white">Phone view</button>` : ""}
+            ${p.img2 ? `<button onclick="openLb('${p.img2}')" class="text-sky2 hover:text-white">${p.label || "Phone view"}</button>` : ""}
             ${p.link ? `<a href="${p.link}" target="_blank" rel="noopener" class="text-sky2 hover:text-white">View live →</a>` : ""}
           </div>
         </div>`).join("");
